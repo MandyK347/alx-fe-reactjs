@@ -2,6 +2,8 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RecipeDetails from './RecipeDetails';
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from '../AddRecipeForm';
 
@@ -41,6 +43,17 @@ const App = () => {
       <AddRecipeForm />
       <RecipeList />
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<RecipeList />} />
+        <Route path="/recipe/:recipeId" element={<RecipeDetails />} />
+      </Routes>
+    </Router>
   );
 };
 
