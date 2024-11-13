@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RecipeDetails from './RecipeDetails';
 import RecipeList from './components/RecipeList';
+import SearchBar from './components/SearchBar';
 import AddRecipeForm from '../AddRecipeForm';
 
 function App() {
@@ -41,6 +42,7 @@ const App = () => {
     <div className="App">
       <h1>Recipe Sharing App</h1>
       <AddRecipeForm />
+      <SearchBar />
       <RecipeList />
     </div>
   );
