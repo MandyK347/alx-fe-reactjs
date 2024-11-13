@@ -2,28 +2,16 @@
 import React from 'react';
 import { useRecipeStore } from '../recipeStore';
 
-const RecipeComponent = () => {
-    const { recipe, updateRecipe, deletedRecipe } = useRecipeStore();
-
-    const handleUpdate = (id, recipe) => {
-        updateRecipe(id, recipe);
-    };
-
-    const handleDelete = (id) => {
-        deletedRecipe(id);
-    };
+const RecipeDetails = ({ requireId }) => {
+    const recipe = useRecipeStore(state =>
+        state.recipe.find(recipe => recipe.id === recipeId)
+    );
 
     return (
         <div>
-            {recipe.map((recipe) => (
-                <div key={recipe.id}>
-                    <h2>{recipe.name}</h2>
-                    <button onClick={() => handleUpdate(recipe.id, { ...recipe, name: 'Updated'})}>
-                        Update
-                    </button>
-                    <button onClick={() => handleDelete(recipe.id)}>Delete</button>
-                </div>
-            ))}
+            <h1>{recipe.title}</h1>
+            <p>{recipe.description}</p>
+            {/*Render EditRecipeForm and DeleteRecipeButton here */}
         </div>
     );
 };
