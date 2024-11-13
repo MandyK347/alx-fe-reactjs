@@ -7,10 +7,14 @@ const EditRecipeForm = ({ recipe }) => {
 
     const updateRecipe = useRecipeStore(state => state.updateRecipe);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const updateRecipe = { ...recipe, title, description };
-        updateRecipe(updatedRecipe);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const updateRecipe = {
+            id: recipe.id,
+            title: event.target.title.value,
+            description: event.target.description.value,
+        };
+        updateRecipe(recipe.id, updatedRecipe);
     };
 
     return (
@@ -18,19 +22,15 @@ const EditRecipeForm = ({ recipe }) => {
             <label>
                 Title:
                 <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+                  type="text" name="title" defaultValue={recipe.title} />
             </label>
+            <br />
             <label>
                 Description:
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
+                <textarea name="description" defaultValue={recipe.description} />
             </label>
-            <button type="submit">Save Changes</button>
+            <br />
+            <button type="submit">Update Recipe</button>
         </form>
     );
 };
