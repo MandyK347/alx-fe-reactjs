@@ -14,6 +14,7 @@ const useRecipeStore = create((set) => ({
             recipe.id === id ? updatedRecipe : recipe
         ),
     })),
+    setRecipes: (recipes) => set({ recipes}),
 }));
 
 
