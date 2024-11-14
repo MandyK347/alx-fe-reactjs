@@ -7,6 +7,9 @@ import RecipeDetails from './RecipeDetails';
 import RecipeList from './components/RecipeList';
 import SearchBar from './components/SearchBar';
 import AddRecipeForm from '../AddRecipeForm';
+import { useRecipeStore } from '../recipeStore';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -56,6 +59,38 @@ const App = () => {
         <Route path="/recipe/:recipeId" element={<RecipeDetails />} />
       </Routes>
     </Router>
+  );
+};
+
+const App = () =>{
+  const recipe = useRecipeStore(state => state.recipes);
+  const addFavorite = useRecipeStore(state => state.addFavorite);
+  const removeFavorite = useRecipeStore(state => state.removeFavorite);
+  const generateRecommendations = useRecipeStore(state => state.generateRecommendations);
+
+  React.useEffect(() => {
+    generateRecommendations();
+  }, [generateRecommendations]);
+
+  return (
+    <div>
+      <h1>Recipe Sharing App</h1>
+
+      <div>
+        <h2>All Recipes</h2>
+        {recipes.map(recipe => (
+          <div key={recipe.id}>
+            <h3>{recipe.title}</h3>
+            <p>{recipe.description}</p>
+            <button onClick={() => addFavorite(recipe.id)}>Add to Favorites</button>
+            <button onClick={() => removeFavorite(recipe.id)}>Remove from Favorites</button>
+         </div>
+        ))}
+     </div>
+
+     <FavoritesList />
+     <RecommendationsList />
+    </div>
   );
 };
 
