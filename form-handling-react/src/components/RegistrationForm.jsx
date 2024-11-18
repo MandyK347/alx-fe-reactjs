@@ -2,20 +2,15 @@
 import React, { useState } from 'react';
 
 const RegistrationForm = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-    });
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setpassword] = useState('');
+
     const [errors, setErrors] = usesState({});
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+    const handleUsernameChange = (e) => setUsername(e.target.value);
+    const handleEmailChange = (e) => setEmail(e.target.value);
+    const handlePasswordChange = (e) => setpassword(e.target.value);
 
     const validate = () => {
         const errors = {};
@@ -27,9 +22,9 @@ const RegistrationForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formErrors = validate();
+        const formErrors = validateForm();
         if (Object.keys(formErrors).length === 0) {
-            console.log('Form submitted successfuly!', formData);
+            console.log({ username, email, password });
 
         } else {
             setErrors(formErrors);
@@ -43,30 +38,30 @@ const RegistrationForm = () => {
                 <input
                   type="text"
                   name="username"
-                  value={formData.username}
-                  onChange={handleChange}
+                  value={username}
+                  onChange={handleUsernameChange}
                 />
-                {errors.username && <p>{errors.username}</p>}
+                {errors.username && <span style={{ color: 'red' }}>{errors.username}</span>}
             </div>
             <div>
                 <label>Email:</label>
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={email}
+                  onChange={handleEmailChange}
                 />
-                {errors.email && <p>{errors.email}</p>}
+                {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
             </div>
             <div>
                 <label>Password:</label>
                 <input
                   type="password"
                   name="password"
-                  value={formData.password}
-                  onChange={handleChange}
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
-                {errors.username && <p>{errors.password}</p>}
+                {errors.Password && <span style={{ color: 'red' }}>{errors.password}</span>}
             </div>
             <button type="submit">Register</button>
         </form>
