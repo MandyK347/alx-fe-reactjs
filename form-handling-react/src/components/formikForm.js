@@ -1,69 +1,66 @@
 // src/cpmponents/FormikForm.js
 import React from 'react';
-import { useFormik } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const FormikForm = () => {
-
-    const formik = useFormik({
-        initialValues: {
+    return (
+        <Formik
+          initialValues={{
             username: '',
             email: '',
             password: '',
-        },
-        validationSchema: Yup.object({
-            username: Yup.string().required('Username is requred'),
+          }}
+          validationSchema={Yup.object({
+            username: Yup.string().required('Username is required'),
             email: Yup.string().email('Invalid email format').required('Email is required'),
             password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        }),
-        onSubmit: (values) => {
+          })}
+          onSubmit={(values) => {
             console.log('Form submitted successfully!', values);
-        },
-    });
-
-    return (
-        <form onSubmit={formik.handlesubmit}>
-            <div>
+          }}
+        >
+          {({ touched, errors }) => (
+            <Form>
+              <div>
                 <label htmlFor="username">Username:</label>
-                <input
+                <Field
                   id="username"
                   name="username"
                   type="text"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
+                  placeholder="Enter username"
                 />
-                {formik.touched.username && formik.errors.username ? <p>{formik.errors.username}</p> : null}
-            </div>
-
-            <div>
-            <label htmlFor="email">Email:</label>
-                <input
+                <ErrorMessage name="username" component="p" className="error" />
+              </div>
+    
+              <div>
+                <label htmlFor="email">Email:</label>
+                <Field
                   id="email"
                   name="email"
                   type="email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
+                  placeholder="Enter email"
                 />
-                {formik.touched.username && formik.errors.email ? <p>{formik.errors.email}</p> : null}
-            </div>
-            <div>
-            <label htmlFor="password">Password:</label>
-                <input
+                <ErrorMessage name="email" component="p" className="error" />
+              </div>
+    
+              <div>
+                <label htmlFor="password">Password:</label>
+                <Field
                   id="password"
                   name="password"
                   type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
+                  placeholder="Enter password"
                 />
-                {formik.touched.username && formik.errors.password ? <p>{formik.errors.password}</p> : null}
-            </div>
-
-            <button type="submit">Register</button>
-        </form>
+                <ErrorMessage name="password" component="p" className="error" />
+              </div>
+    
+              <button type="submit">Register</button>
+            </Form>
+          )}
+        </Formik>
     );
 };
+  
 
 export default FormikForm;
