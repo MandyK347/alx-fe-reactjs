@@ -1,4 +1,4 @@
-// ProfileDetails.jsx
+// src/components/ProfileDetails.jsx
 import React from 'react';
 
 const ProfileDetails = () => {
