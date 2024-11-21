@@ -11,7 +11,7 @@ import ProfileDetails from './components/ProfileDetails';
 import ProfileSettings from './components/ProfileSettings';
 import Login from './components/Login';
 import ProtectedRoute from './components/ProtectedRoute';
-import Post from './components/Post';
+import BlogPost from './components/Post';
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
             {/* Nested Routes */}
             <Route path="details" element={<ProfileDetails />} />
             <Route path="settings" element={<ProfileSettings />} />
-            <Route path="/posts/:id" element={<Post />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
         </Routes>
       </Router>
 
