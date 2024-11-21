@@ -1,16 +1,19 @@
 // ProtectedRoute.jsx
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import useAuth from './auth';
 
-const ProtectedRoute = () => {
-    //Simulate authentication status
-    const isAuthenticated = false; // Change this to stimulate Login/Logout
-    
-    if (!isAuthenticated) {
+const ProtectedRoute = ({ children }) => {
+    const { user, loading } = useAuth();
+
+    if (loading) return <div>Loading...</div>;
+
+    if (!user) {
         return <Navigate to="/login" replace />;
     }
 
-    return <Outlet />
+    return children;
+    
 };
 
 export default ProtectedRoute;
