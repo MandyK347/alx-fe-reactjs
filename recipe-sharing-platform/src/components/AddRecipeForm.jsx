@@ -7,40 +7,70 @@ const AddRecipeForm = ({ addRecipe }) => {
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
   
-  // Validation state
-  const [error, setError] = useState('');
+  // Validation errors state
+  const [errors, setErrors] = useState({
+    title: '',
+    ingredients: '',
+    instructions: '',
+  });
+
+  // Validation function
+  const validate = () => {
+    const newErrors = {};
+
+    // Validate title
+    if (!title) {
+      newErrors.title = 'Recipe title is required.';
+    }
+
+    // Validate ingredients (must be at least two)
+    const ingredientsList = ingredients.split('\n').map(item => item.trim()).filter(item => item);
+    if (ingredientsList.length < 2) {
+      newErrors.ingredients = 'Please provide at least two ingredients.';
+    }
+
+    // Validate instructions
+    if (!instructions) {
+      newErrors.instructions = 'Preparation steps are required.';
+    }
+
+    setErrors(newErrors);
+    
+    // Return boolean indicating if the form is valid
+    return Object.keys(newErrors).length === 0;
+  };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Simple validation
-    if (!title || !ingredients || !instructions) {
-      setError('All fields are required');
-      return;
-    }
 
-    const ingredientsList = ingredients.split('\n').map(item => item.trim()).filter(item => item);
-    if (ingredientsList.length < 2) {
-      setError('Please provide at least two ingredients.');
-      return;
+    // Perform validation before submitting
+    if (validate()) {
+      // No validation errors, pass the form data to parent component
+      addRecipe({
+        title,
+        ingredients: ingredients.split('\n').map(item => item.trim()).filter(item => item),
+        instructions: instructions.split('\n'),
+      });
+      
+      // Reset the form after successful submission
+      setTitle('');
+      setIngredients('');
+      setInstructions('');
+      setErrors({}); // Clear errors
     }
-
-    // Clear error and pass the form data
-    setError('');
-    addRecipe({ title, ingredients: ingredientsList, instructions: instructions.split('\n') });
-    
-    // Reset form
-    setTitle('');
-    setIngredients('');
-    setInstructions('');
   };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold mb-4">Add a New Recipe</h2>
       
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {/* Display Errors */}
+      {Object.keys(errors).map((field) => (
+        errors[field] && (
+          <p key={field} className="text-red-500 mb-2">{errors[field]}</p>
+        )
+      ))}
 
       <form onSubmit={handleSubmit}>
         {/* Recipe Title */}
@@ -51,7 +81,7 @@ const AddRecipeForm = ({ addRecipe }) => {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${errors.title ? 'border-red-500' : ''}`}
             placeholder="Enter the recipe title"
           />
         </div>
@@ -63,7 +93,7 @@ const AddRecipeForm = ({ addRecipe }) => {
             id="ingredients"
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${errors.ingredients ? 'border-red-500' : ''}`}
             rows="4"
             placeholder="Enter ingredients (separate each ingredient with a new line)"
           />
@@ -76,7 +106,7 @@ const AddRecipeForm = ({ addRecipe }) => {
             id="instructions"
             value={instructions}
             onChange={(e) => setInstructions(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className={`w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${errors.instructions ? 'border-red-500' : ''}`}
             rows="4"
             placeholder="Enter preparation steps"
           />
