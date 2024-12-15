@@ -11,7 +11,7 @@ const Search = () => {
     const [page, setPage] = useState(1); // for pageination
 
     const HandleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target.value;
         if (name === 'username') setUsername(value);
         if (name === 'location') setLocation(value);
         if (name === 'minRepos') setMinRepos(value);
